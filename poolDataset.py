@@ -3,10 +3,6 @@ import xml.etree.ElementTree as ET
 from PIL import Image
 from torch.utils.data import Dataset
 
-
-DATASET_IMAGES_LABELED = "\\dataset\\images_with_label"
-DATASET_LABELS =  "\\dataset\\labels"
-
 class PoolDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
@@ -31,13 +27,19 @@ class PoolDataset(Dataset):
                     image_path = elem.text
 
                 if elem.tag == 'object':
-                    label = elem.text
+                    label = []
+                    for obj_elem in elem:
+                        if obj_elem.tag == 'bndbox':
+                            dic = {}
+                            for bbox_elem in obj_elem:
+                                dic[bbox_elem.tag] = bbox_elem.text
+                            label.append(dic)
 
             if image_path is not None and label is not None:
                 
                 self.image_paths.append(image_path)
                 self.labels.append(label)
-                
+
 
     def __len__(self):
         return len(self.image_paths)
@@ -52,3 +54,13 @@ class PoolDataset(Dataset):
             img = self.transform(img)
 
         return img, label
+    
+'''
+EXEMPLE OF USAGE:
+
+ROOT = os.getcwd()
+DATASET = ROOT + "\\dataset"
+dataset = PoolDataset(root_dir=DATASET)
+img, label = dataset[5]
+
+'''
