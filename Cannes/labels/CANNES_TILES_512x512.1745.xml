@@ -1,0 +1,26 @@
+<annotation>
+	<folder>CANNES_TILES_512x512</folder>
+	<filename>CANNES_TILES_512x512.1745.tif</filename>
+	<path>F:\CANNES_TILES_512x512\CANNES_TILES_512x512.1745.tif</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>pool</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>217</xmin>
+			<ymin>75</ymin>
+			<xmax>277</xmax>
+			<ymax>129</ymax>
+		</bndbox>
+	</object>
+</annotation>
