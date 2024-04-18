@@ -8,6 +8,10 @@
 
 ## Train the model
 * Let's use the techniques the teacher taught us during the "Training DNNs" class
+* Models used: 
+    - Faster R_CNN
+    - YOLO
+    - DETR
 
 ## Evaluate
 * Precision, recall and F1-Score
