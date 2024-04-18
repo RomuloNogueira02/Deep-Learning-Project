@@ -1,4 +1,3 @@
-import torch
 import os
 import xml.etree.ElementTree as ET
 from PIL import Image
@@ -14,11 +13,11 @@ class PoolDataset(Dataset):
         self.transform = transform
         self.image_paths = []
         self.labels = []
-
         self.parse_xml()
     
     def parse_xml(self):
         xml_files = [file for file in os.listdir(os.path.join(self.root_dir, 'labels')) if file.endswith('.xml')]
+
         for xml_file in xml_files:
             tree = ET.parse(os.path.join(self.root_dir, 'labels',xml_file))
             root = tree.getroot()
@@ -27,14 +26,18 @@ class PoolDataset(Dataset):
             label = None
 
             for elem in root:
+
                 if elem.tag == 'path':
                     image_path = elem.text
-                if elem.tag == 'label':
+
+                if elem.tag == 'object':
                     label = elem.text
 
             if image_path is not None and label is not None:
+                
                 self.image_paths.append(image_path)
                 self.labels.append(label)
+                
 
     def __len__(self):
         return len(self.image_paths)
