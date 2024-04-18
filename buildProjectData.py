@@ -120,8 +120,46 @@ print("We should have %d images labeled, check = %s" % (sil, len(os.listdir(DATA
 print("We should have %d images without labels, check = %s" % (sinl, len(os.listdir(DATASET_IMAGES_NOT_LABELED))== sinl))
 print("We should habe %d labels, check = %s" % (sil, len(os.listdir(DATASET_LABELS))== sil))
 
+print()
+print("Modifying xmls...")
+
+import xml.etree.ElementTree as ET
 
 
+def getImagePath(xml_name):
+    splitted = xml_name.split(".")
+    final = ""
+    if len(splitted) > 2:
+        final = ".".join(splitted[0:2]) + ".png"
+    else:
+        final = splitted[0] + ".jpg"
+
+    return DATASET_IMAGES_LABELED + "\\" + final
+
+def change_name_to_img(file):
+    splitted = file.split(".")
+    final = ""
+    if len(splitted) > 2:
+        final = ".".join(splitted[0:2]) + ".png"
+    else:
+        final = splitted[0] + ".jpg"
+
+    return final
 
 
+for filename in os.listdir(DATASET_LABELS):
+    xml_file = os.path.join(DATASET_LABELS, filename)
 
+    # Parse the XML file
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
+
+    # Find the filename and path elements and update their text
+    for filename_element in root.iter('filename'):
+        filename_element.text = change_name_to_img(filename)
+
+    for path_element in root.iter('path'):
+        path_element.text = getImagePath(filename)
+
+    # Write the modified XML back to the file
+    tree.write(xml_file)
