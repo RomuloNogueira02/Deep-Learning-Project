@@ -19,15 +19,15 @@ class PoolDataset(Dataset):
             root = tree.getroot()
 
             image_path = None
-            label = None
+            label = []
 
             for elem in root:
-
+                
                 if elem.tag == 'path':
                     image_path = elem.text
 
                 if elem.tag == 'object':
-                    label = []
+
                     for obj_elem in elem:
                         if obj_elem.tag == 'bndbox':
                             dic = {}
@@ -35,7 +35,7 @@ class PoolDataset(Dataset):
                                 dic[bbox_elem.tag] = bbox_elem.text
                             label.append(dic)
 
-            if image_path is not None and label is not None:
+            if image_path is not None and label != []:
                 
                 self.image_paths.append(image_path)
                 self.labels.append(label)
