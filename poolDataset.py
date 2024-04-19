@@ -2,6 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from PIL import Image
 from torch.utils.data import Dataset
+import torch
 
 class PoolDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -30,10 +31,11 @@ class PoolDataset(Dataset):
 
                     for obj_elem in elem:
                         if obj_elem.tag == 'bndbox':
-                            dic = {}
+                            line = []
                             for bbox_elem in obj_elem:
-                                dic[bbox_elem.tag] = bbox_elem.text
-                            label.append(dic)
+                                value = float(bbox_elem.text)
+                                line.append(value)
+                            label.append(line)
 
             if image_path is not None and label != []:
                 
@@ -47,11 +49,12 @@ class PoolDataset(Dataset):
     def __getitem__(self, idx):
         img_path = os.path.join(self.root_dir, 'images_with_label',self.image_paths[idx])
         label = self.labels[idx]
+        label = torch.FloatTensor(label)
 
         img = Image.open(img_path).convert('RGB')
 
         if self.transform:
-            img = self.transform(img)
+            img, label = self.transform(img, label)
 
         return img, label
     
