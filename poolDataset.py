@@ -3,13 +3,16 @@ import xml.etree.ElementTree as ET
 from PIL import Image
 from torch.utils.data import Dataset
 import torch
+import matplotlib.pyplot as plt
 
 class PoolDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
         self.transform = transform
+
         self.image_paths = []
-        self.labels = []
+        self.boxes = []
+        
         self.parse_xml()
     
     def parse_xml(self):
@@ -20,7 +23,7 @@ class PoolDataset(Dataset):
             root = tree.getroot()
 
             image_path = None
-            label = []
+            boxes = []
 
             for elem in root:
                 
@@ -35,12 +38,12 @@ class PoolDataset(Dataset):
                             for bbox_elem in obj_elem:
                                 value = float(bbox_elem.text)
                                 line.append(value)
-                            label.append(line)
+                            boxes.append(line)
 
-            if image_path is not None and label != []:
+            if image_path is not None and boxes != []:
                 
                 self.image_paths.append(image_path)
-                self.labels.append(label)
+                self.boxes.append(boxes)
 
 
     def __len__(self):
@@ -48,15 +51,31 @@ class PoolDataset(Dataset):
     
     def __getitem__(self, idx):
         img_path = os.path.join(self.root_dir, 'images_with_label',self.image_paths[idx])
-        label = self.labels[idx]
-        label = torch.FloatTensor(label)
+        boxes = self.boxes[idx]
+        boxes = torch.FloatTensor(boxes)
 
         img = Image.open(img_path).convert('RGB')
-
+        print(img)
         if self.transform:
-            img, label = self.transform(img, label)
+            
+            #print('Old width: ' + str(img.width))
+            old = img.width
+            img = self.transform(img)
+            #print('New width: ' + str(img.shape))
+            factor = old / img.shape[1]
+            #print('Old box:' + str(boxes))
+            #print('Factor:' + str(factor))
+            
+            boxes = list(map(lambda l: list(map(lambda v:v/factor,l)), boxes))
+            #print('New box: ' + str(boxes))
 
-        return img, label
+        return img, boxes
+    
+    def show_image(self, idx):
+        img,_ = self.__getitem__(idx)
+        
+        
+        plt.imshow(img.permute(1,2,0))
     
 '''
 EXEMPLE OF USAGE:
