@@ -4,6 +4,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 import torch
 import matplotlib.pyplot as plt
+import cv2
 
 class PoolDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -76,6 +77,19 @@ class PoolDataset(Dataset):
         
         
         plt.imshow(img.permute(1,2,0))
+
+    def show_image_labeled(self, idx):
+        img, boxes = self.__getitem__(idx)
+
+        img = img.permute(1,2,0)
+
+        for box in boxes:
+            x1, y1, x2, y2 = box
+            cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (255,0,0), 2)
+            
+        plt.imshow(img)
+
+
     
 '''
 EXEMPLE OF USAGE:
