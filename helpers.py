@@ -6,9 +6,13 @@ from torchvision.transforms.v2 import functional as F
 import cv2
 import numpy as np
 import os
+import xml.etree.ElementTree as ET
 
 def show_image(image):
     plt.imshow(image.permute(1,2,0))
+    plt.axis('off')
+    plt.show()
+
     
 def show_image_with_box(image,boxes):
 
@@ -18,11 +22,42 @@ def show_image_with_box(image,boxes):
 
     for box in boxes_np:
         x1, y1, x2, y2 = box
-        cv2.rectangle(image_draw, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+        cv2.rectangle(image_draw, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 1)
     
     plt.imshow(image_draw)
     plt.axis('off')
     plt.show()
+
+def get_images_labeled(labels_path):
+    return os.listdir(labels_path)
+
+def change_image_to_label(image_path):
+    new_path = image_path.replace('images','labels')
+    if 'jpg' in new_path:
+        new_path = new_path.replace('jpg','xml')
+    elif 'png' in new_path:
+        new_path = new_path.replace('png','xml')
+    
+    return new_path
+
+def getBoxes(xml_path):
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    boxes = []
+
+    for elem in root:
+        if elem.tag == 'object':
+            for obj_elem in elem:
+                if obj_elem.tag == 'bndbox':
+                    line = []
+                    for bbox_elem in obj_elem:
+                        value = float(bbox_elem.text)
+                        line.append(value)
+                    boxes.append(line)
+    return boxes
+
+
 
 def plot(imgs, row_title=None, **imshow_kwargs):
     if not isinstance(imgs[0], list):
