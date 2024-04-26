@@ -56,7 +56,7 @@ class PoolDataset(Dataset):
         boxes = torch.FloatTensor(boxes)
 
         img = Image.open(img_path).convert('RGB')
-        print(img)
+        # print(img)
         if self.transform:
             
             #print('Old width: ' + str(img.width))
@@ -67,7 +67,7 @@ class PoolDataset(Dataset):
             #print('Old box:' + str(boxes))
             #print('Factor:' + str(factor))
             
-            boxes = list(map(lambda l: list(map(lambda v:v/factor,l)), boxes))
+            boxes = list(map(lambda l: torch.tensor([v / factor for v in l]), boxes))
             #print('New box: ' + str(boxes))
 
         return img, boxes
