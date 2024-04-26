@@ -3,7 +3,25 @@ import torch
 from torchvision.utils import draw_bounding_boxes, draw_segmentation_masks
 from torchvision import tv_tensors
 from torchvision.transforms.v2 import functional as F
+import cv2
+import numpy as np
 
+def show_image(image):
+    plt.imshow(image.permute(1,2,0))
+    
+def show_image_with_box(image,boxes):
+
+    image_draw = image.permute(1,2,0).clone().cpu().numpy()
+    
+    boxes_np = [box.tolist() for box in boxes]
+
+    for box in boxes_np:
+        x1, y1, x2, y2 = box
+        cv2.rectangle(image_draw, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+    
+    plt.imshow(image_draw)
+    plt.axis('off')
+    plt.show()
 
 def plot(imgs, row_title=None, **imshow_kwargs):
     if not isinstance(imgs[0], list):
