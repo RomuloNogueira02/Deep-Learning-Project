@@ -5,6 +5,7 @@ from torchvision import tv_tensors
 from torchvision.transforms.v2 import functional as F
 import cv2
 import numpy as np
+import os
 
 def show_image(image):
     plt.imshow(image.permute(1,2,0))
@@ -66,3 +67,15 @@ def plot(imgs, row_title=None, **imshow_kwargs):
             axs[row_idx, 0].set(ylabel=row_title[row_idx])
 
     plt.tight_layout()
+
+
+def delete_files_from_dir(directory_path):
+   try:
+     files = os.listdir(directory_path)
+     for file in files:
+       file_path = os.path.join(directory_path, file)
+       if os.path.isfile(file_path):
+         os.remove(file_path)
+     print("All files deleted successfully from %s " % (directory_path))
+   except OSError:
+     print("Error occurred while deleting files.")
