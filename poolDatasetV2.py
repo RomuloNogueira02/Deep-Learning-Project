@@ -45,7 +45,7 @@ class PoolDatasetV2(Dataset):
                 self.labels.append([torch.Tensor(box) for box in boxes])
 
             else:
-                self.labels.append(torch.Tensor([]))
+                self.labels.append([torch.Tensor([0.0, 0.0, 0.0, 0.0])])
 
     def __len__(self):
         return len(self.images)
