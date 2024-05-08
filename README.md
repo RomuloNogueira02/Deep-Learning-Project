@@ -18,3 +18,8 @@
 * Compare models performance
 
 ## Report
+
+
+# Useful links:
+* https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/datasets.py
+* https://debuggercafe.com/a-simple-pipeline-to-train-pytorch-faster-rcnn-object-detection-model/
