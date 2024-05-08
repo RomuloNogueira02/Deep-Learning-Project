@@ -57,7 +57,18 @@ def getBoxes(xml_path):
                     boxes.append(line)
     return boxes
 
+def getLabels(xml_path):
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
 
+    labels = []
+
+    for elem in root:
+        if elem.tag == 'object':
+            for obj_elem in elem:
+                if obj_elem.tag == 'name':
+                    labels.append(1)
+    return labels
 
 def plot(imgs, row_title=None, **imshow_kwargs):
     if not isinstance(imgs[0], list):
