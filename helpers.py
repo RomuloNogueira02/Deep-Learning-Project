@@ -17,7 +17,6 @@ def show_image(image):
 def show_image_with_box(image,boxes):
 
     image_draw = image.permute(1,2,0).clone().cpu().numpy()
-    
     boxes_np = [box.tolist() for box in boxes]
 
     for box in boxes_np:
