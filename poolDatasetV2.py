@@ -24,7 +24,7 @@ class PoolDatasetV2(Dataset):
         
         for file in os.listdir(self.root_dir):
             
-            full_image_path = self.root_dir + "\\" + file
+            full_image_path = self.root_dir + "/" + file
             label_name = change_image_to_label(file)
 
 
@@ -42,8 +42,8 @@ class PoolDatasetV2(Dataset):
 
             # Deal with the label
             if label_name in self.labeled_images:
-                boxes = getBoxes(self.root_dir.replace('images','labels') + "\\" + label_name)
-                labels = getLabels(self.root_dir.replace('images','labels') + "\\" + label_name)
+                boxes = getBoxes(self.root_dir.replace('images','labels') + "/" + label_name)
+                labels = getLabels(self.root_dir.replace('images','labels') + "/" + label_name)
                 self.labels.append(labels)
                 #self.boxes.append([torch.Tensor(box) for box in boxes])
                 self.boxes.append(boxes)
