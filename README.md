@@ -1,3 +1,5 @@
+![Example of the different model outputs](/Images/examples.png)
+
 # Model comparisson for Pool Detection in aerial images
 
 ## Abstract:
@@ -19,11 +21,29 @@ based models.
 - Scripts that can be used to extract principal features from
 a raw dataset (image, label) attending specific features of
 each model.
+
 ## Models Trained
 - Faster R_CNN
 - YOLO
 - DETR
 
+## Results:
+
+![Results of the different models](/Images/results.png)
+
+## Repo description:
+* **/DETR**
+   * How we loaded the dataset into DETR
+   * How we trained DETR
+* **/Faster R_CNN**
+   * Custom made Dataset Class
+   * How we trained Faster R-CNN
+* **/YOLO**
+   * Data Treatment for YOLO requirements
+   * How we trained YOLO
+   * /runs
+      * YOLO run files   
+  
 ## Authors:
 * Guilherme Ribeiro
     * fc53699@alunos.fc.ul.pt
