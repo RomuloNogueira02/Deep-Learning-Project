@@ -31,4 +31,4 @@ each model.
     * fc56935@alunos.fc.ul.pt
 
 ## Note:
-This project was developt during the Deep Leaning class given by Prof. Nuno Garcia at the Science Faculty of the University of Lisbon.
+This project was developed during the Deep Learning class taught by Prof. Nuno Garcia at the Faculty of Science, University of Lisbon.
