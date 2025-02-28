@@ -1,6 +1,6 @@
 ![Example of the different model outputs](/Images/examples.png)
 
-# Model comparisson for Pool Detection in aerial images
+# Model comparison for Pool Detection in aerial images
 
 ## Abstract:
 Standard object detection methods are widely used for
